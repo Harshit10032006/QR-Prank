@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item.label }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        img, video {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    {% if item.media_type == 'image' %}
+        <img src="{{ item.file.url }}" alt="{{ item.label }}">
+    {% elif item.media_type == 'video' %}
+        <video src="{{ item.file.url }}" autoplay controls playsinline></video>
+    {% else %}
+        <p style="color: white;">Unsupported file type.</p>
+    {% endif %}
+</body>
+</html>

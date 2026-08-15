@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Gallery - QR Fun{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Your QR Codes</h2>
+    <a href="{% url 'upload' %}" class="btn btn-primary">+ New QR Code</a>
+</div>
+
+{% if items %}
+<div class="row g-4">
+    {% for item in items %}
+    <div class="col-md-4 col-sm-6">
+        <div class="card h-100 text-center p-3">
+            <img src="{{ item.qr_code.url }}" alt="QR Code" class="mx-auto mb-3" style="width: 180px; height: 180px; border-radius: 12px; background: #fff3f31c; padding: 10px;">
+            <h5 class="mb-1 text-light">{{ item.label }}</h5>
+            <p class="text-muted small mb-3">{{ item.created_at|date:"M d, Y - H:i" }}</p>
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{{ item.qr_code.url }}" download class="btn btn-sm btn-outline-light">Download</a>
+                <a href="{% url 'scan' item.id %}" target="_blank" class="btn btn-sm btn-outline-light">Preview</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <p class="text-muted fs-5">No QR codes yet — generate your first one!</p>
+    <a href="{% url 'upload' %}" class="btn btn-primary mt-2">Create QR Code</a>
+</div>
+{% endif %}
+{% endblock %}
