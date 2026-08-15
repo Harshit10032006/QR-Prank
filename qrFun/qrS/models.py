@@ -1,12 +1,7 @@
-import os
 import uuid
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-
-
-IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"}
-VIDEO_EXTS = {".mp4", ".mov", ".webm", ".avi", ".mkv"}
 
 
 class UserManager(BaseUserManager):
@@ -42,13 +37,5 @@ class Qrcode(models.Model):
     label = models.CharField(max_length=100, default="Scan for Menu")
     file = models.FileField(upload_to='uploads/')
     qr_code = models.ImageField(upload_to='qrcodes/', blank=True)
+    media_type = models.CharField(max_length=10, default='image')
     created_at = models.DateTimeField(auto_now_add=True)
-
-    @property
-    def media_type(self):
-        ext = os.path.splitext(self.file.name)[1].lower()
-        if ext in VIDEO_EXTS:
-            return "video"
-        if ext in IMAGE_EXTS:
-            return "image"
-        return "other"

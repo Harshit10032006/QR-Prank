@@ -49,7 +49,11 @@ def upload_view(request):
     if request.method == 'POST':
         label = request.POST.get('label', 'Scan for Menu')
         file = request.FILES.get('file')
-        item = Qrcode.objects.create(user=request.user, label=label, file=file)
+
+        content_type = file.content_type  # e.g. 'image/png' or 'video/mp4'
+        media_type = 'video' if content_type.startswith('video') else 'image'
+
+        item = Qrcode.objects.create(user=request.user, label=label, file=file, media_type=media_type)
 
         scan_url = f"{settings.SITE_URL}/scan/{item.id}/"
         qr = qrcode.QRCode(box_size=10, border=4)
