@@ -6,7 +6,7 @@ import qrcode
 from django.conf import settings
 from django.core.files.base import ContentFile
 import io
-
+import cloudinary.uploader
 User = get_user_model()
 
 
@@ -50,10 +50,20 @@ def upload_view(request):
         label = request.POST.get('label', 'Scan for Menu')
         file = request.FILES.get('file')
 
-        content_type = file.content_type  # e.g. 'image/png' or 'video/mp4'
+        content_type = file.content_type 
         media_type = 'video' if content_type.startswith('video') else 'image'
 
-        item = Qrcode.objects.create(user=request.user, label=label, file=file, media_type=media_type)
+        result = cloudinary.uploader.upload(
+            file,
+            resource_type="auto"
+        )
+
+        item = Qrcode.objects.create(
+            user=request.user,
+            label=label,
+            file=result["secure_url"],
+            media_type=media_type
+        )
 
         scan_url = f"{settings.SITE_URL}/scan/{item.id}/"
         qr = qrcode.QRCode(box_size=10, border=4)

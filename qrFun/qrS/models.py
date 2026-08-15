@@ -35,7 +35,7 @@ class Qrcode(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     label = models.CharField(max_length=100, default="Scan for Menu")
-    file = models.FileField(upload_to='uploads/')
+    file = models.URLField()
     qr_code = models.ImageField(upload_to='qrcodes/', blank=True)
     media_type = models.CharField(max_length=10, default='image')
     created_at = models.DateTimeField(auto_now_add=True)
