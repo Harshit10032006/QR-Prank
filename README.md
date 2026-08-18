@@ -1,6 +1,6 @@
 # QR-Prank
 
-A fun  project made in 7 hrs where users can generate QR codes and add photos and videos for pranks 
+A fun  project where users can generate QR codes and add photos and videos for pranks 
 
 ## Tech Stack
 
